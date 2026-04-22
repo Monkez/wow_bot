@@ -574,6 +574,14 @@ video {
   bottom: -2rem;
 }
 
+.left-2 {
+  left: 0.5rem;
+}
+
+.top-1 {
+  top: 0.25rem;
+}
+
 .z-0 {
   z-index: 0;
 }
@@ -586,22 +594,16 @@ video {
   z-index: 20;
 }
 
+.z-30 {
+  z-index: 30;
+}
+
 .z-50 {
   z-index: 50;
 }
 
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.my-1 {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
-}
-
-.-mr-2 {
-  margin-right: -0.5rem;
+.-mr-3 {
+  margin-right: -0.75rem;
 }
 
 .mb-1 {
@@ -636,10 +638,6 @@ video {
   height: 0.25rem;
 }
 
-.h-10 {
-  height: 2.5rem;
-}
-
 .h-14 {
   height: 3.5rem;
 }
@@ -650,6 +648,10 @@ video {
 
 .h-2 {
   height: 0.5rem;
+}
+
+.h-24 {
+  height: 6rem;
 }
 
 .h-28 {
@@ -668,6 +670,10 @@ video {
   height: 1.25rem;
 }
 
+.h-6 {
+  height: 1.5rem;
+}
+
 .h-\[450px\] {
   height: 450px;
 }
@@ -680,8 +686,8 @@ video {
   height: 100vh;
 }
 
-.w-10 {
-  width: 2.5rem;
+.max-h-\[85vh\] {
+  max-height: 85vh;
 }
 
 .w-16 {
@@ -708,6 +714,10 @@ video {
   width: 1.25rem;
 }
 
+.w-6 {
+  width: 1.5rem;
+}
+
 .w-\[320px\] {
   width: 320px;
 }
@@ -732,8 +742,18 @@ video {
   flex: 1 1 0%;
 }
 
+.shrink-0 {
+  flex-shrink: 0;
+}
+
 .origin-bottom {
   transform-origin: bottom;
+}
+
+.scale-75 {
+  --tw-scale-x: .75;
+  --tw-scale-y: .75;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .transform {
@@ -990,16 +1010,16 @@ video {
   padding-bottom: 0.5rem;
 }
 
-.text-center {
-  text-align: center;
-}
-
 .font-sans {
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .text-\[10px\] {
   font-size: 10px;
+}
+
+.text-\[8px\] {
+  font-size: 8px;
 }
 
 .text-\[9px\] {
@@ -1016,8 +1036,16 @@ video {
   line-height: 1rem;
 }
 
+.font-bold {
+  font-weight: 700;
+}
+
 .font-semibold {
   font-weight: 600;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }
 
 .leading-relaxed {
@@ -1026,6 +1054,10 @@ video {
 
 .leading-tight {
   line-height: 1.25;
+}
+
+.tracking-widest {
+  letter-spacing: 0.1em;
 }
 
 .text-blue-400 {
@@ -1041,6 +1073,10 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.text-white\/30 {
+  color: rgb(255 255 255 / 0.3);
 }
 
 .text-white\/40 {
@@ -1069,10 +1105,6 @@ video {
 
 .opacity-100 {
   opacity: 1;
-}
-
-.opacity-60 {
-  opacity: 0.6;
 }
 
 .shadow-2xl {
@@ -1109,8 +1141,13 @@ video {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
-.drop-shadow-\[0_0_2px_rgba\(0\2c 0\2c 0\2c 1\)\] {
-  --tw-drop-shadow: drop-shadow(0 0 2px rgba(0,0,0,1));
+.drop-shadow-\[0_0_3px_rgba\(0\2c 0\2c 0\2c 1\)\] {
+  --tw-drop-shadow: drop-shadow(0 0 3px rgba(0,0,0,1));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.drop-shadow-md {
+  --tw-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
