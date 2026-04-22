@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: transparent !important;
+}
+
+.glass {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Rocket fire effect using CSS variables for dynamic per-avatar config */
+.rocket-fire {
+  position: absolute;
+  bottom: var(--fire-bottom-idle, 25px);
+  left: var(--fire-left, 50%);
+  transform: var(--fire-transform, translateX(-50%));
+  width: var(--fire-width, 20px);
+  height: 20px;
+  background: var(--fire-color, linear-gradient(to bottom, #ffcc00, #ff3300, transparent));
+  border-radius: 50% 50% 20% 20%;
+  filter: blur(3px);
+  animation: flicker 0.1s infinite alternate;
+  opacity: 0;
+  transition: opacity 0.3s, height 0.3s, bottom 0.3s, left 0.3s, transform 0.3s;
+  pointer-events: none;
+}
+
+.is-flying .rocket-fire {
+  opacity: 1;
+  height: var(--fire-height-flying, 80px);
+  bottom: var(--fire-bottom-flying, -15px);
+}
+
+@keyframes flicker {
+  0% { transform: var(--fire-transform, translateX(-50%)) scale(0.9); opacity: 0.8; }
+  100% { transform: var(--fire-transform, translateX(-50%)) scale(1.1); opacity: 1; }
+}
+
+/* Flexibility animations for the character */
+.animate-breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+.is-flying #flex-wrapper {
+  animation: flap 0.2s ease-in-out infinite alternate;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.05, 0.96); }
+}
+
+@keyframes flap {
+  0% { transform: scale(0.92, 1.08) translateY(-4px); }
+  100% { transform: scale(1.08, 0.92) translateY(4px); }
+}

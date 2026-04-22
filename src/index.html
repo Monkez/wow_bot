@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Openclaw Bot</title>
+  <link href="./output.css" rel="stylesheet">
+</head>
+<body class="w-screen h-screen flex relative pointer-events-none select-none overflow-hidden">
+  
+  <!-- Robot Container -->
+  <div id="robot-container" class="absolute pointer-events-auto flex flex-col items-center justify-center transition-all duration-300 ease-in-out" style="left: 100px; top: 100px; width: 120px; height: 120px;">
+    
+    <div id="robot" class="w-28 h-28 flex items-center justify-center cursor-pointer relative group animate-bounce drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+      <div id="flex-wrapper" class="w-full h-full animate-breathe relative z-10">
+        <div class="rocket-fire z-0"></div>
+        <img id="robot-img" src="./assets/rocket.png" class="w-full h-full object-contain pointer-events-none origin-bottom relative z-10" />
+      </div>
+      <div class="absolute -bottom-8 opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs glass px-2 py-1 rounded-md whitespace-nowrap z-20">Click me!</div>
+    </div>
+  </div>
+
+  <!-- Chat UI Container -->
+  <div id="chat-ui" class="absolute pointer-events-auto glass rounded-2xl w-[350px] h-[450px] flex flex-col hidden transition-opacity duration-300 opacity-0 shadow-2xl overflow-hidden" style="left: 240px; top: 50px;">
+    
+    <div class="h-14 border-b border-white/10 flex items-center justify-between px-4 bg-white/5">
+      <div class="flex items-center gap-3">
+        <div class="w-3 h-3 bg-green-400 rounded-full shadow-[0_0_8px_rgba(74,222,128,0.8)] animate-pulse"></div>
+        <span class="text-white font-semibold font-sans">Openclaw</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="open-settings" class="text-white/50 hover:text-white transition-colors cursor-pointer p-1" title="Settings">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        </button>
+        <button id="close-chat" class="text-white/50 hover:text-white transition-colors cursor-pointer p-1" title="Close">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+      <!-- Messages will be injected here -->
+      <div class="flex justify-start">
+        <div class="glass bg-white/10 text-white text-sm px-4 py-2 rounded-2xl rounded-tl-sm max-w-[85%] leading-relaxed">
+          Hello! I'm your Openclaw assistant. How can I help you today?
+        </div>
+      </div>
+    </div>
+
+    <!-- Thinking indicator -->
+    <div id="thinking-indicator" class="hidden px-4 pb-2">
+      <div class="flex gap-1 items-center">
+        <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0s"></div>
+        <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+        <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+      </div>
+    </div>
+
+    <div class="p-3 bg-white/5 border-t border-white/10">
+      <div class="flex items-center gap-2 glass bg-white/5 rounded-full px-4 py-2 focus-within:ring-2 focus-within:ring-blue-500/50 transition-all">
+        <input type="text" id="chat-input" class="flex-1 bg-transparent border-none outline-none text-white text-sm placeholder-white/30" placeholder="Type a message...">
+        <button id="send-msg" class="text-blue-400 hover:text-blue-300 transition-colors cursor-pointer">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal Container -->
+  <div id="settings-ui" class="absolute pointer-events-auto glass rounded-2xl w-[320px] hidden transition-opacity duration-300 opacity-0 shadow-2xl overflow-hidden z-50 flex-col" style="left: 20px; top: 20px;">
+    <div class="h-14 border-b border-white/10 flex items-center justify-between px-4 bg-white/5">
+      <span class="text-white font-semibold font-sans">Settings</span>
+      <button id="close-settings" class="text-white/50 hover:text-white transition-colors cursor-pointer p-1">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+    </div>
+
+    <div class="p-4 flex flex-col gap-4 bg-black/20">
+      <!-- API URL -->
+      <div class="flex flex-col gap-1">
+        <label class="text-white/70 text-xs font-semibold">Openclaw API URL</label>
+        <input type="text" id="api-url" class="w-full bg-white/5 border border-white/10 rounded-md px-3 py-2 text-white text-sm outline-none focus:border-blue-500 transition-colors" value="http://localhost:8000/v1/chat/completions">
+      </div>
+      
+      <!-- API Key -->
+      <div class="flex flex-col gap-1">
+        <label class="text-white/70 text-xs font-semibold">API Key (if required)</label>
+        <input type="password" id="api-key" class="w-full bg-white/5 border border-white/10 rounded-md px-3 py-2 text-white text-sm outline-none focus:border-blue-500 transition-colors" placeholder="sk-...">
+      </div>
+
+      <!-- Select Avatar -->
+      <div class="flex flex-col gap-2 mt-2">
+        <label class="text-white/70 text-xs font-semibold">Select Avatar</label>
+        <div class="flex gap-3 justify-center">
+          <button class="avatar-select w-16 h-16 rounded-xl border-2 border-transparent hover:border-blue-500 focus:border-blue-500 transition-all bg-black/20 p-1" data-src="./assets/rocket.png">
+            <img src="./assets/rocket.png" class="w-full h-full object-contain">
+          </button>
+          <button class="avatar-select w-16 h-16 rounded-xl border-2 border-transparent hover:border-blue-500 focus:border-blue-500 transition-all bg-black/20 p-1" data-src="./assets/astronaut.png">
+            <img src="./assets/astronaut.png" class="w-full h-full object-contain">
+          </button>
+        </div>
+      </div>
+      
+      <!-- Fire Tweaks -->
+      <div class="flex flex-col gap-2 mt-1 p-3 bg-white/5 rounded-md border border-white/10">
+        <label class="text-white/70 text-xs font-semibold mb-1">Fine-tune Fire Position</label>
+        
+        <div class="flex flex-col gap-1">
+            <div class="flex justify-between text-[10px] text-white/50"><span>X Offset</span><span id="val-x">50%</span></div>
+            <input type="range" id="fire-x" min="0" max="100" value="50" class="w-full h-1 bg-white/20 rounded-lg appearance-none cursor-pointer">
+        </div>
+        
+        <div class="flex flex-col gap-1">
+            <div class="flex justify-between text-[10px] text-white/50"><span>Y Offset</span><span id="val-y">25px</span></div>
+            <input type="range" id="fire-y" min="-50" max="100" value="25" class="w-full h-1 bg-white/20 rounded-lg appearance-none cursor-pointer">
+        </div>
+        
+        <div class="flex flex-col gap-1">
+            <div class="flex justify-between text-[10px] text-white/50"><span>Angle</span><span id="val-angle">0°</span></div>
+            <input type="range" id="fire-angle" min="-90" max="90" value="0" class="w-full h-1 bg-white/20 rounded-lg appearance-none cursor-pointer">
+        </div>
+      </div>
+
+      <!-- Flight Style Tweaks -->
+      <div class="flex flex-col gap-2 mt-1 p-3 bg-white/5 rounded-md border border-white/10">
+        <label class="text-white/70 text-xs font-semibold mb-1">Flight Dynamics</label>
+        
+        <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="auto-rotate" class="rounded bg-white/20 border-transparent focus:ring-blue-500 w-4 h-4" checked>
+            <span class="text-white/70 text-[10px]">Point in Flying Direction</span>
+        </label>
+
+        <div class="flex flex-col gap-1 mt-1">
+            <div class="flex justify-between text-[10px] text-white/50"><span>Image Base Angle (0=Right)</span><span id="val-base-angle">0°</span></div>
+            <input type="range" id="base-angle" min="-180" max="180" value="0" step="15" class="w-full h-1 bg-white/20 rounded-lg appearance-none cursor-pointer">
+        </div>
+      </div>
+      
+      <button id="save-settings" class="mt-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-md py-2 transition-colors">
+        Save Changes
+      </button>
+    </div>
+  </div>
+
+  <script src="./renderer.js"></script>
+</body>
+</html>
