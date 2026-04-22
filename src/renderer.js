@@ -14,7 +14,7 @@ const chatMessages = document.getElementById('chat-messages');
 const thinkingIndicator = document.getElementById('thinking-indicator');
 const robotImg = document.getElementById('robot-img');
 const flexWrapper = document.getElementById('flex-wrapper');
-const rocketFire = document.querySelector('.rocket-fire');
+const rocketFires = document.querySelectorAll('.rocket-fire');
 
 let isChatOpen = false;
 let isSettingsOpen = false;
@@ -43,14 +43,15 @@ const getAvatarConfig = (avatarPath) => {
 
 const applyAvatarConfig = (avatarPath) => {
     const config = getAvatarConfig(avatarPath);
-    rocketFire.style.display = 'block';
     
-    // Set CSS vars
-    rocketFire.style.setProperty('--fire-left', `${config.x}%`);
-    rocketFire.style.setProperty('--fire-bottom-idle', `${config.y}px`);
-    rocketFire.style.setProperty('--fire-bottom-flying', `${config.y - 40}px`);
-    rocketFire.style.setProperty('--fire-transform', `translateX(-50%) rotate(${config.angle}deg)`);
-    rocketFire.style.setProperty('--fire-color', config.color);
+    rocketFires.forEach(fire => {
+        fire.style.display = 'block';
+        fire.style.setProperty('--fire-left', `${config.x}%`);
+        fire.style.setProperty('--fire-bottom-idle', `${config.y}px`);
+        fire.style.setProperty('--fire-bottom-flying', `${config.y - 40}px`);
+        fire.style.setProperty('--fire-transform', `translateX(-50%) rotate(${config.angle}deg)`);
+        fire.style.setProperty('--fire-color', config.color);
+    });
     
     // Update UI Sliders
     const fireX = document.getElementById('fire-x');
@@ -69,11 +70,15 @@ const applyAvatarConfig = (avatarPath) => {
     const valY = document.getElementById('val-y');
     const valAngle = document.getElementById('val-angle');
     const valBaseAngle = document.getElementById('val-base-angle');
+    const anglePreviewArrow = document.getElementById('angle-preview-arrow');
+    const anglePreviewImg = document.getElementById('angle-preview-img');
     
     if (valX) valX.textContent = `${config.x}%`;
     if (valY) valY.textContent = `${config.y}px`;
     if (valAngle) valAngle.textContent = `${config.angle}°`;
     if (valBaseAngle) valBaseAngle.textContent = `${config.baseAngle || 0}°`;
+    if (anglePreviewArrow) anglePreviewArrow.style.transform = `rotate(${config.baseAngle || 0}deg)`;
+    if (anglePreviewImg) anglePreviewImg.src = avatarPath;
 };
 
 // Handle slider updates
@@ -89,11 +94,16 @@ const updateCustomConfig = () => {
     document.getElementById('val-angle').textContent = `${angle}°`;
     document.getElementById('val-base-angle').textContent = `${baseAngle}°`;
     
+    const anglePreviewArrow = document.getElementById('angle-preview-arrow');
+    if (anglePreviewArrow) anglePreviewArrow.style.transform = `rotate(${baseAngle}deg)`;
+    
     // Quick preview update directly to CSS
-    rocketFire.style.setProperty('--fire-left', `${x}%`);
-    rocketFire.style.setProperty('--fire-bottom-idle', `${y}px`);
-    rocketFire.style.setProperty('--fire-bottom-flying', `${y - 40}px`);
-    rocketFire.style.setProperty('--fire-transform', `translateX(-50%) rotate(${angle}deg)`);
+    rocketFires.forEach(fire => {
+        fire.style.setProperty('--fire-left', `${x}%`);
+        fire.style.setProperty('--fire-bottom-idle', `${y}px`);
+        fire.style.setProperty('--fire-bottom-flying', `${y - 40}px`);
+        fire.style.setProperty('--fire-transform', `translateX(-50%) rotate(${angle}deg)`);
+    });
     
     // Save
     customFireConfigs[currentAvatar] = { x, y, angle, autoRotate, baseAngle };
