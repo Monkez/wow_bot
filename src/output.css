@@ -686,8 +686,8 @@ video {
   height: 100vh;
 }
 
-.max-h-\[85vh\] {
-  max-height: 85vh;
+.min-h-0 {
+  min-height: 0px;
 }
 
 .w-16 {
@@ -1262,6 +1262,25 @@ body {
   100% {
     transform: scale(1.08, 0.92) translateY(4px);
   }
+}
+
+/* Custom Scrollbar */
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .focus-within\:ring-2:focus-within {
