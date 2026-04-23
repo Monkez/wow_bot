@@ -177,6 +177,35 @@ saveSettingsBtn.addEventListener('click', () => {
   closeSettings();
 });
 
+// Gateway Command Logic
+const handleGatewayCmd = async (action) => {
+    const statusEl = document.getElementById('cmd-status');
+    statusEl.textContent = `Executing: openclaw gateway ${action}...`;
+    statusEl.classList.remove('hidden', 'text-red-400', 'text-green-400');
+    statusEl.classList.add('text-white/50');
+    
+    try {
+        const res = await window.electronAPI.runOpenclawCmd(action);
+        if (res.success) {
+            statusEl.textContent = `Success: ${action} command completed`;
+            statusEl.classList.remove('text-white/50');
+            statusEl.classList.add('text-green-400');
+        } else {
+            statusEl.textContent = `Error: ${res.error}`;
+            statusEl.classList.remove('text-white/50');
+            statusEl.classList.add('text-red-400');
+        }
+    } catch (e) {
+        statusEl.textContent = `Error: IPC failed`;
+        statusEl.classList.remove('text-white/50');
+        statusEl.classList.add('text-red-400');
+    }
+};
+
+document.getElementById('cmd-start').addEventListener('click', () => handleGatewayCmd('start'));
+document.getElementById('cmd-restart').addEventListener('click', () => handleGatewayCmd('restart'));
+document.getElementById('cmd-stop').addEventListener('click', () => handleGatewayCmd('stop'));
+
 // Handle mouse events for click-through
 const interactiveElements = [robot, chatUI, settingsUI];
 

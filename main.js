@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, screen } = require('electron');
 const path = require('path');
+const { exec } = require('child_process');
 
 function createWindow() {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -24,6 +25,19 @@ function createWindow() {
   ipcMain.on('set-ignore-mouse-events', (event, ignore, options) => {
     const win = BrowserWindow.fromWebContents(event.sender);
     win.setIgnoreMouseEvents(ignore, options);
+  });
+
+  ipcMain.handle('run-openclaw-cmd', (event, action) => {
+    return new Promise((resolve, reject) => {
+      // action will be 'start', 'stop', or 'restart'
+      exec(`openclaw gateway ${action}`, (error, stdout, stderr) => {
+        if (error) {
+          resolve({ success: false, error: error.message });
+        } else {
+          resolve({ success: true, output: stdout });
+        }
+      });
+    });
   });
 
   mainWindow.loadFile('src/index.html');
