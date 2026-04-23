@@ -180,6 +180,24 @@ saveSettingsBtn.addEventListener('click', () => {
 // Handle mouse events for click-through
 const interactiveElements = [robot, chatUI, settingsUI];
 
+// Settings Tab Logic
+document.querySelectorAll('.settings-tab-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    // Reset tabs
+    document.querySelectorAll('.settings-tab-btn').forEach(b => {
+      b.classList.remove('text-white', 'border-blue-500');
+      b.classList.add('text-white/50', 'border-transparent');
+    });
+    // Active tab
+    e.target.classList.remove('text-white/50', 'border-transparent');
+    e.target.classList.add('text-white', 'border-blue-500');
+    
+    // Hide contents
+    document.querySelectorAll('.settings-tab-content').forEach(c => c.classList.add('hidden'));
+    document.getElementById(e.target.dataset.tab).classList.remove('hidden');
+  });
+});
+
 interactiveElements.forEach(el => {
   el.addEventListener('mouseenter', () => {
     window.electronAPI.setIgnoreMouseEvents(false);
