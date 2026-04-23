@@ -27,6 +27,10 @@ function createWindow() {
     win.setIgnoreMouseEvents(ignore, options);
   });
 
+  ipcMain.on('quit-app', () => {
+    app.quit();
+  });
+
   ipcMain.handle('run-openclaw-cmd', (event, action) => {
     return new Promise((resolve, reject) => {
       // action will be 'start', 'stop', or 'restart'

@@ -206,6 +206,10 @@ document.getElementById('cmd-start').addEventListener('click', () => handleGatew
 document.getElementById('cmd-restart').addEventListener('click', () => handleGatewayCmd('restart'));
 document.getElementById('cmd-stop').addEventListener('click', () => handleGatewayCmd('stop'));
 
+document.getElementById('quit-app').addEventListener('click', () => {
+    window.electronAPI.quitApp();
+});
+
 // Handle mouse events for click-through
 const interactiveElements = [robot, chatUI, settingsUI];
 
